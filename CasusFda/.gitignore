@@ -1,0 +1,101 @@
+## Ignore Visual Studio build artifacts
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VC.db
+
+## Ignore Rider specific
+.idea/
+*.sln.iml
+
+## Ignore build results
+*.dll
+*.exe
+*.app
+*.log
+*.pdb
+*.cache
+*.zip
+*.tar.gz
+*.vspscc
+*.vssscc
+
+## Ignore NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.psmdcp
+
+# If you're using the new centralized NuGet packages folder:
+.nuget/
+
+## Ignore dotnet CLI artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.deps.json
+*.runtimeconfig.json
+
+
+.env
+.env.*
+
+## Test results
+TestResults/
+*.coverage
+*.coveragexml
+*.testresults
+*.trx
+
+
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+## Logs
+*.log
+logs/
+log/
+*.log.*
+
+## Others
+.vscode/
+*.vs/
+.vsconfig
+*.tmproj
+*.pidb
+*.sdf
+*.sln.ide
+*.swo
+*.swp
+_ReSharper*/    # ReSharper user-specific files
+*.DotSettings.user
+.idea/
+
+# Rider caches 
+.idea/
+*.iml
+
+# Global JetBrains IDE settings
+/.idea/
+*.iws
+/out/
+
+# MacOS & Windows system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+out/
+
+docker-compose.override.yml
+*.pid
+
+.sonar/
