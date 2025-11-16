@@ -2,7 +2,7 @@ namespace Application;
 
 public class RunApplicationResult
 {
-    public required IEnumerable<SearchResult> results { get; set; }
+    public required IEnumerable<SearchResult> Results { get; set; }
 }
 
 public class SearchResult

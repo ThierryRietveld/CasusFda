@@ -21,11 +21,11 @@ public class RunApplicationCommandHandler : ICommandHandler<RunApplicationComman
             resultPerSearchQuery.Add(query, results);
         }
 
-        return new RunApplicationResult()
+        return new RunApplicationResult
         {
-            results = resultPerSearchQuery.Select(x =>
+            Results = resultPerSearchQuery.Select(x =>
             {
-                return new SearchResult()
+                return new SearchResult
                 {
                     SearchQuery = x.Key,
                     MakelaarCount = x.Value

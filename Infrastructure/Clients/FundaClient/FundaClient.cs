@@ -1,18 +1,20 @@
 using System.Net.Http.Json;
-using Infrastructure.Models;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
+using Polly;
 
-namespace Infrastructure;
+namespace Infrastructure.Clients.FundaClient;
 
 public class FundaClient
 {
     private readonly HttpClient _httpClient;
+    private readonly ResiliencePipeline<HttpResponseMessage> _pipeline;
     private readonly IOptions<FundaOptions> _fundaOptions;
 
-    public FundaClient(HttpClient httpClient, IOptions<FundaOptions> fundaOptions)
+    public FundaClient(HttpClient httpClient, ResiliencePipeline<HttpResponseMessage> pipeline, IOptions<FundaOptions> fundaOptions)
     {
         _httpClient = httpClient;
+        _pipeline = pipeline;
         _fundaOptions = fundaOptions;
     }
 
@@ -33,7 +35,11 @@ public class FundaClient
 
         var urlWithQuery = QueryHelpers.AddQueryString(relativePath, queryParams);
 
-        var response = await _httpClient.GetAsync(urlWithQuery);
+        var response = await _pipeline.ExecuteAsync(async _ =>
+        {
+            Console.WriteLine("Page Request: " + page);
+            return await _httpClient.GetAsync(urlWithQuery);
+        });
 
         response.EnsureSuccessStatusCode();
         

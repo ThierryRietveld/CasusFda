@@ -1,6 +1,6 @@
 using Application;
 using Application.Models;
-using Microsoft.Extensions.Options;
+using Infrastructure.Clients.FundaClient;
 
 namespace Infrastructure;
 
@@ -20,7 +20,7 @@ public class FundaDataService : IRealEstateService
         
         while (true)
         {
-            var response = await _fundaClient.GetFundaObjectsAsync(searchQuery, page, 100);
+            var response = await _fundaClient.GetFundaObjectsAsync(searchQuery, page, 25);
             
             if (response is null) break;
             

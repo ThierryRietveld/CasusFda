@@ -1,4 +1,4 @@
-namespace Infrastructure.Models;
+namespace Infrastructure.Clients.FundaClient;
 
 public class FundaApiResponse
 {

@@ -14,11 +14,11 @@ public class ConsoleBackgroundService : BackgroundService
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var command = new RunApplicationCommand(["/woerden/tuin/"]);
+        var command = new RunApplicationCommand(["/amsterdam/"]);
         
         var result = await _commandHandler.HandleAsync(command, stoppingToken);
         
-        foreach (var searchResult in result.results)
+        foreach (var searchResult in result.Results)
         {
             Console.WriteLine($"Search Query: {searchResult.SearchQuery}");
             Console.WriteLine("Makelaar Counts:");
