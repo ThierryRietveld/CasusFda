@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>CasusFda</RootNamespace>
+        <UserSecretsId>d95ef5dd-9b23-44a7-8935-09dcfe782b93</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>

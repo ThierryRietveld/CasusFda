@@ -1,3 +1,3 @@
 namespace Application;
 
-public record RunApplicationCommand();
+public record RunApplicationCommand(IEnumerable<string> SearchQueries);
