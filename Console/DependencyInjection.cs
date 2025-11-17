@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Spectre.Console;
 
 namespace CasusFda;
 
@@ -11,6 +12,8 @@ public static class DependencyInjection
             .AddOptions<AppOptions>()
             .BindConfiguration(AppOptions.Section)
             .ValidateOnStart();
+        
+        services.AddSingleton<IAnsiConsole>(_ => AnsiConsole.Console);
         
         services.AddHostedService<ConsoleBackgroundService>();
         

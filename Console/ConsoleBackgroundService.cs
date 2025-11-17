@@ -10,10 +10,16 @@ public class ConsoleBackgroundService : BackgroundService
 {
     private readonly ICommandHandler<RunApplicationCommand, RunApplicationResult> _commandHandler;
     private readonly ILogger<ConsoleBackgroundService> _logger;
-    private IOptions<AppOptions> _appOptions;
+    private readonly IOptions<AppOptions> _appOptions;
+    private readonly IAnsiConsole _console;
 
-    public ConsoleBackgroundService(ICommandHandler<RunApplicationCommand, RunApplicationResult> commandHandler, IOptions<AppOptions> appOptions, ILogger<ConsoleBackgroundService> logger)
+    public ConsoleBackgroundService(
+        ICommandHandler<RunApplicationCommand, RunApplicationResult> commandHandler, 
+        IOptions<AppOptions> appOptions, 
+        IAnsiConsole console, 
+        ILogger<ConsoleBackgroundService> logger)
     {
+        _console = console;
         _appOptions = appOptions;
         _logger = logger;
         _commandHandler = commandHandler;
@@ -30,7 +36,7 @@ public class ConsoleBackgroundService : BackgroundService
         
         foreach (var searchResult in result.Results)
         {
-            AnsiConsole.MarkupLine($"Search Query: [bold]{searchResult.SearchQuery}[/]");
+            _console.MarkupLine($"Search Query: [bold]{searchResult.SearchQuery}[/]");
             
             var table = new Table();
 
@@ -41,7 +47,7 @@ public class ConsoleBackgroundService : BackgroundService
             {
                 table.AddRow($"[bold]{makelaarCount.Key}[/]", makelaarCount.Value.ToString());
             }
-            AnsiConsole.Write(table);
+            _console.Write(table);
         }
     }
 }
