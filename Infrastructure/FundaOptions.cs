@@ -2,7 +2,7 @@ namespace Infrastructure;
 
 public class FundaOptions
 {
-    public static string Section => "FundaOptions";
+    public const string Section = "FundaOptions";
     
     public required string ApiKey { get; init; }
     public required string BaseUrl { get; init; }

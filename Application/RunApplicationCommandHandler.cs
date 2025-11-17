@@ -6,7 +6,7 @@ namespace Application;
 public class RunApplicationCommandHandler : ICommandHandler<RunApplicationCommand, RunApplicationResult>
 {
     private readonly IRealEstateService _realEstateService;
-    private ILogger<RunApplicationCommandHandler> _logger;
+    private readonly ILogger<RunApplicationCommandHandler> _logger;
 
     public RunApplicationCommandHandler(IRealEstateService realEstateService, ILogger<RunApplicationCommandHandler> logger)
     {
