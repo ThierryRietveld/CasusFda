@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 
@@ -10,12 +11,14 @@ public class FundaClient
     private readonly HttpClient _httpClient;
     private readonly ResiliencePipeline<HttpResponseMessage> _pipeline;
     private readonly IOptions<FundaOptions> _fundaOptions;
+    private readonly ILogger<FundaClient> _logger;
 
-    public FundaClient(HttpClient httpClient, ResiliencePipeline<HttpResponseMessage> pipeline, IOptions<FundaOptions> fundaOptions)
+    public FundaClient(HttpClient httpClient, ResiliencePipeline<HttpResponseMessage> pipeline, IOptions<FundaOptions> fundaOptions, ILogger<FundaClient> logger)
     {
         _httpClient = httpClient;
         _pipeline = pipeline;
         _fundaOptions = fundaOptions;
+        _logger = logger;
     }
 
     public async Task<FundaApiResponse?> GetFundaObjectsAsync(
@@ -38,7 +41,7 @@ public class FundaClient
 
         var response = await _pipeline.ExecuteAsync(async _ =>
         {
-            Console.WriteLine("Page Request: " + page);
+            _logger.LogDebug("Page request: {Page}", page);
             return await _httpClient.GetAsync(urlWithQuery, cancellationToken);
         }, cancellationToken);
 

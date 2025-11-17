@@ -1,5 +1,7 @@
 using Application;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Spectre.Console;
 
 namespace CasusFda;
@@ -7,15 +9,22 @@ namespace CasusFda;
 public class ConsoleBackgroundService : BackgroundService
 {
     private readonly ICommandHandler<RunApplicationCommand, RunApplicationResult> _commandHandler;
+    private readonly ILogger<ConsoleBackgroundService> _logger;
+    private IOptions<AppOptions> _appOptions;
 
-    public ConsoleBackgroundService(ICommandHandler<RunApplicationCommand, RunApplicationResult> commandHandler)
+    public ConsoleBackgroundService(ICommandHandler<RunApplicationCommand, RunApplicationResult> commandHandler, IOptions<AppOptions> appOptions, ILogger<ConsoleBackgroundService> logger)
     {
+        _appOptions = appOptions;
+        _logger = logger;
         _commandHandler = commandHandler;
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var command = new RunApplicationCommand(["/woerden/tuin/", "/harmelen/tuin/"]);
+        _logger.LogTrace("Start ConsoleBackgroundService");
+        
+        _logger.LogInformation("Search queries: {Join}", string.Join(", ", _appOptions.Value.SearchQueries));
+        var command = new RunApplicationCommand(_appOptions.Value.SearchQueries);
         
         var result = await _commandHandler.HandleAsync(command, stoppingToken);
         

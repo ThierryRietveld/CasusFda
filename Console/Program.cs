@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddJsonFile("appsettings.Infrastructure.json");
 
 builder.Configuration.AddUserSecrets<Program>(optional: true);

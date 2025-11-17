@@ -1,13 +1,16 @@
 using Application.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Application;
 
 public class RunApplicationCommandHandler : ICommandHandler<RunApplicationCommand, RunApplicationResult>
 {
     private readonly IRealEstateService _realEstateService;
+    private ILogger<RunApplicationCommandHandler> _logger;
 
-    public RunApplicationCommandHandler(IRealEstateService realEstateService)
+    public RunApplicationCommandHandler(IRealEstateService realEstateService, ILogger<RunApplicationCommandHandler> logger)
     {
+        _logger = logger;
         _realEstateService = realEstateService;
     }
     
@@ -17,6 +20,11 @@ public class RunApplicationCommandHandler : ICommandHandler<RunApplicationComman
         
         foreach (var query in command.SearchQueries)
         {
+            using var scope = _logger.BeginScope(new Dictionary<string, object?>
+            {
+                ["SearchQuery"] = query
+            });
+            
             var results = await _realEstateService.GetFundaObjectsAsync(query, cancellationToken);
             resultPerSearchQuery.Add(query, results);
         }
