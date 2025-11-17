@@ -15,7 +15,7 @@ var fundaOptions = builder.Configuration
     .Get<FundaOptions>() ?? throw new Exception("Could not instantiate FundaOptions");
 
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure(fundaOptions.BaseUrl);
+builder.Services.AddInfrastructure(fundaOptions);
 builder.Services.AddConsole();
 
 IHost host = builder.Build();

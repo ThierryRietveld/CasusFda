@@ -1,15 +1,18 @@
 using Application;
 using Application.Models;
 using Infrastructure.Clients.FundaClient;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure;
 
 public class FundaDataService : IRealEstateService
 {
     private readonly FundaClient _fundaClient;
+    private readonly IOptions<FundaOptions> _fundaOptions;
 
-    public FundaDataService(FundaClient fundaClient)
+    public FundaDataService(FundaClient fundaClient, IOptions<FundaOptions> fundaOptions)
     {
+        _fundaOptions = fundaOptions;
         _fundaClient = fundaClient;
     }
     
@@ -20,7 +23,7 @@ public class FundaDataService : IRealEstateService
         
         while (true)
         {
-            var response = await _fundaClient.GetFundaObjectsAsync(searchQuery, page, 25, cancellationToken);
+            var response = await _fundaClient.GetFundaObjectsAsync(searchQuery, page, _fundaOptions.Value.PageSize, cancellationToken);
             
             if (response is null) break;
             

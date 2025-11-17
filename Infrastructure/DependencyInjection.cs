@@ -10,7 +10,7 @@ namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string baseAddress)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, FundaOptions fundaOptions)
     {
         services
             .AddOptions<FundaOptions>()
@@ -21,17 +21,17 @@ public static class DependencyInjection
         {
             var rateLimiter = new FixedWindowRateLimiter(new FixedWindowRateLimiterOptions()
             {
-                PermitLimit = 100,
-                Window = TimeSpan.FromMinutes(1),
+                PermitLimit = fundaOptions.RateLimit.PermitLimit,
+                Window = fundaOptions.RateLimit.Window,
                 QueueLimit = int.MaxValue,
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst
             });
             
             var retryOptions = new RetryStrategyOptions<HttpResponseMessage>
             {
-                MaxRetryAttempts = 5,
-                Delay = TimeSpan.FromSeconds(5),
-                MaxDelay = TimeSpan.FromMinutes(1),
+                MaxRetryAttempts = fundaOptions.RetryOptions.MaxRetryAttempts,
+                Delay = fundaOptions.RetryOptions.Delay,
+                MaxDelay = fundaOptions.RetryOptions.MaxDelay,
                 BackoffType = DelayBackoffType.Exponential,
                 UseJitter = false,
                 ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
@@ -50,7 +50,7 @@ public static class DependencyInjection
         
         services.AddHttpClient<FundaClient>(clientOptions =>
         {
-            clientOptions.BaseAddress = new Uri(baseAddress);
+            clientOptions.BaseAddress = new Uri(fundaOptions.BaseUrl);
         });
 
         services.AddTransient<IRealEstateService, FundaDataService>();
