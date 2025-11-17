@@ -17,7 +17,7 @@ public class RunApplicationCommandHandler : ICommandHandler<RunApplicationComman
         
         foreach (var query in command.SearchQueries)
         {
-            var results = await _realEstateService.GetFundaObjectsAsync(query);
+            var results = await _realEstateService.GetFundaObjectsAsync(query, cancellationToken);
             resultPerSearchQuery.Add(query, results);
         }
 

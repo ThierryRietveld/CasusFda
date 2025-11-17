@@ -1,5 +1,6 @@
 using Application;
 using Microsoft.Extensions.Hosting;
+using Spectre.Console;
 
 namespace CasusFda;
 
@@ -14,19 +15,24 @@ public class ConsoleBackgroundService : BackgroundService
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var command = new RunApplicationCommand(["/amsterdam/tuin/"]);
+        var command = new RunApplicationCommand(["/woerden/tuin/", "/harmelen/tuin/"]);
         
         var result = await _commandHandler.HandleAsync(command, stoppingToken);
         
         foreach (var searchResult in result.Results)
         {
-            Console.WriteLine($"Search Query: {searchResult.SearchQuery}");
-            Console.WriteLine("Makelaar Counts:");
+            AnsiConsole.MarkupLine($"Search Query: [bold]{searchResult.SearchQuery}[/]");
+            
+            var table = new Table();
+
+            table.AddColumn("[bold green]Makelaar[/]");
+            table.AddColumn("[bold yellow]Aantal objecten[/]");
+            
             foreach (var makelaarCount in searchResult.MakelaarCount.OrderBy(x => -x.Value).Take(10))
             {
-                Console.WriteLine($"- {makelaarCount.Key}: {makelaarCount.Value}");
+                table.AddRow($"[bold]{makelaarCount.Key}[/]", makelaarCount.Value.ToString());
             }
-            Console.WriteLine();
+            AnsiConsole.Write(table);
         }
     }
 }

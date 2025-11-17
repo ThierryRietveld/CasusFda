@@ -13,14 +13,14 @@ public class FundaDataService : IRealEstateService
         _fundaClient = fundaClient;
     }
     
-    public async Task<IEnumerable<FundaObject>> GetFundaObjectsAsync(string searchQuery)
+    public async Task<IEnumerable<FundaObject>> GetFundaObjectsAsync(string searchQuery, CancellationToken cancellationToken = default)
     {
         var results = new List<FundaObject>();
         var page = 1;
         
         while (true)
         {
-            var response = await _fundaClient.GetFundaObjectsAsync(searchQuery, page, 25);
+            var response = await _fundaClient.GetFundaObjectsAsync(searchQuery, page, 25, cancellationToken);
             
             if (response is null) break;
             

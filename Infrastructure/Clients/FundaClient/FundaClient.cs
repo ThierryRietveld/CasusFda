@@ -21,7 +21,8 @@ public class FundaClient
     public async Task<FundaApiResponse?> GetFundaObjectsAsync(
         string searchQuery,
         int page,
-        int pageSize)
+        int pageSize, 
+        CancellationToken cancellationToken = default)
     {
         var queryParams = new Dictionary<string, string?>
         {
@@ -38,12 +39,12 @@ public class FundaClient
         var response = await _pipeline.ExecuteAsync(async _ =>
         {
             Console.WriteLine("Page Request: " + page);
-            return await _httpClient.GetAsync(urlWithQuery);
-        });
+            return await _httpClient.GetAsync(urlWithQuery, cancellationToken);
+        }, cancellationToken);
 
         response.EnsureSuccessStatusCode();
         
         return await response.Content
-            .ReadFromJsonAsync<FundaApiResponse>();
+            .ReadFromJsonAsync<FundaApiResponse>(cancellationToken: cancellationToken);
     }
 }
