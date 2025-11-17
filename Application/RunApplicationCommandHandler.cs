@@ -16,6 +16,11 @@ public class RunApplicationCommandHandler : ICommandHandler<RunApplicationComman
     
     public async Task<RunApplicationResult> HandleAsync(RunApplicationCommand command, CancellationToken cancellationToken = default)
     {
+        if (!command.SearchQueries.Any())
+        {
+            _logger.LogWarning("No search queries provided");
+        }
+        
         var resultPerSearchQuery = new Dictionary<string, IEnumerable<FundaObject>>();
         
         foreach (var query in command.SearchQueries)
@@ -40,7 +45,7 @@ public class RunApplicationCommandHandler : ICommandHandler<RunApplicationComman
                         .GroupBy(m => m.MakelaarNaam)
                         .ToDictionary(g => g.Key, g => g.Count())
                 };
-            })
+            }).ToList()
         };
     }
 }
