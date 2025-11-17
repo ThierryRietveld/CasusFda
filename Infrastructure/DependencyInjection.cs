@@ -31,8 +31,9 @@ public static class DependencyInjection
             {
                 MaxRetryAttempts = 5,
                 Delay = TimeSpan.FromSeconds(5),
+                MaxDelay = TimeSpan.FromMinutes(1),
                 BackoffType = DelayBackoffType.Exponential,
-                UseJitter = true,
+                UseJitter = false,
                 ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
                     .Handle<HttpRequestException>()
                     .HandleResult(r =>

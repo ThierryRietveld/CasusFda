@@ -14,7 +14,7 @@ public class ConsoleBackgroundService : BackgroundService
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var command = new RunApplicationCommand(["/amsterdam/"]);
+        var command = new RunApplicationCommand(["/amsterdam/tuin/"]);
         
         var result = await _commandHandler.HandleAsync(command, stoppingToken);
         
