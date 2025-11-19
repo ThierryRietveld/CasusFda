@@ -6,7 +6,7 @@ using Polly;
 
 namespace Infrastructure.Clients.FundaClient;
 
-public class FundaClient
+public class FundaClient : IFundaClient
 {
     private readonly HttpClient _httpClient;
     private readonly ResiliencePipeline<HttpResponseMessage> _pipeline;

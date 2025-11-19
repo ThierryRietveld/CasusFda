@@ -48,7 +48,7 @@ public static class DependencyInjection
                 .Build();
         });
         
-        services.AddHttpClient<FundaClient>(clientOptions =>
+        services.AddHttpClient<IFundaClient, FundaClient>(clientOptions =>
         {
             clientOptions.BaseAddress = new Uri(fundaOptions.BaseUrl);
         });

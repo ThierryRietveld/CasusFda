@@ -8,11 +8,11 @@ namespace Infrastructure;
 
 public class FundaDataService : IRealEstateService
 {
-    private readonly FundaClient _fundaClient;
+    private readonly IFundaClient _fundaClient;
     private readonly IOptions<FundaOptions> _fundaOptions;
     private readonly ILogger<FundaDataService> _logger;
 
-    public FundaDataService(FundaClient fundaClient, IOptions<FundaOptions> fundaOptions, ILogger<FundaDataService> logger)
+    public FundaDataService(IFundaClient fundaClient, IOptions<FundaOptions> fundaOptions, ILogger<FundaDataService> logger)
     {
         _logger = logger;
         _fundaOptions = fundaOptions;
